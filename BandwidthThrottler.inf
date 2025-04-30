@@ -1,0 +1,47 @@
+; BandwidthThrottler.inf
+; Installs the Bandwidth Throttler WFP Driver [cite: 220]
+
+[Version] [cite: 221]
+Signature="$Windows NT$" [cite: 221]
+Class=NetService ; Typically network drivers fall under this or similar classes [cite: 221]
+ClassGuid={4D36E974-E325-11CE-BFC1-08002BE10318} ; GUID for Network Service [cite: 222]
+Provider=%ProviderName% [cite: 222]
+CatalogFile=BandwidthThrottler.cat ; Optional catalog file for WHQL signing (not used in test signing) [cite: 222]
+DriverVer=04/29/2025,1.0.0.1 ; Date, Version - Update as needed [cite: 222]
+
+[Manufacturer] [cite: 222]
+%ProviderName%=Standard, NT$ARCH$ [cite: 222]
+
+[Standard.NT$ARCH$] [cite: 222]
+%ServiceName%=BandwidthThrottler.Install, ROOT\BandwidthThrottler ; Assign a unique hardware ID [cite: 223]
+
+[BandwidthThrottler.Install] [cite: 223]
+DisplayName = %ServiceName% [cite: 223]
+Description = %ServiceDescription% [cite: 223]
+ServiceType = 1 ; SERVICE_KERNEL_DRIVER [cite: 223]
+StartType = 3 ; SERVICE_DEMAND_START (can be changed to SERVICE_SYSTEM_START for auto-load) [cite: 224]
+ErrorControl = 1 ; SERVICE_ERROR_NORMAL [cite: 224]
+ServiceBinary = %12%\BandwidthThrottler.sys ; %12% resolves to \Windows\System32\drivers [cite: 224]
+AddReg = BandwidthThrottler.AddReg [cite: 224]
+
+[BandwidthThrottler.AddReg] [cite: 224]
+; Optional: Add registry keys if needed by the driver (e.g., parameters) [cite: 225]
+; Example: HKLM,"System\CurrentControlSet\Services\BandwidthThrottler\Parameters","ParameterName",0x00010001,1 [cite: 225]
+
+[SourceDisksNames] [cite: 225]
+1 = %DiskName% [cite: 225]
+
+[SourceDisksFiles] [cite: 225]
+BandwidthThrottler.sys = 1 [cite: 225]
+
+[DestinationDirs] [cite: 225]
+DefaultDestDir = 12 ; Directory ID for %SystemRoot%\System32\drivers [cite: 226]
+
+[Strings] [cite: 226]
+ProviderName = "YourCompanyNameOrName" ; Change this [cite: 226]
+ServiceName = "Bandwidth Throttler Driver" [cite: 226]
+ServiceDescription = "WFP driver to throttle bandwidth per process" [cite: 227]
+DiskName = "Bandwidth Throttler Installation Disk" [cite: 227]
+
+; Ensure ARCH specific sections like [Standard.NTamd64] or [Standard.NTx86] are correct
+; if building for multiple architectures, although NT$ARCH$ usually handles this.
