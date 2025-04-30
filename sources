@@ -1,0 +1,22 @@
+# This file specifies the build parameters for the WDK build utility (build.exe)
+
+# Target file name (without extension)
+TARGETNAME=BandwidthThrottler
+
+# Target type: DRIVER for a kernel-mode driver
+TARGETTYPE=DRIVER
+
+# List of C source files to compile
+SOURCES=BandwidthThrottler.c
+
+# Libraries to link against
+# ntoskrnl.lib is the core kernel library
+# Fwpuclnt.lib is needed for Fwpm* WFP API functions used in registration
+# Rpcrt4.lib is needed because UuidCreate was used to generate filter keys
+TARGETLIBS=\
+    $(DDK_LIB_PATH)\ntoskrnl.lib \
+    $(DDK_LIB_PATH)\Fwpuclnt.lib \
+    $(SDK_LIB_PATH)\rpcrt4.lib
+
+# Optional: Specify driver signing settings if needed later
+# For test signing, this is often handled separately via inf settings or signtool.exe
